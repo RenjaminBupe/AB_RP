@@ -1,0 +1,170 @@
+\documentclass{article}
+
+\begin{document}
+	\title{Airbreathing Propulsion HW 2}
+\author{Ben Rupe}
+\date{9/29/2023}
+\maketitle
+
+	\begin{LARGE}
+		Problem 1:
+	\end{LARGE}
+\\
+
+Simple turbojet engine operating with the following conditions:
+\\
+
+$r_c=8.0,\ T_{03}=1200\ K,\ \dot{m}=15\ kg/s,\ C_a=260\ m/s,\ \eta_{\infty c}=0.87$
+
+$\eta_{\infty t}=0.87,\ \eta_i=0.95,\ \eta_j=0.95,\ \eta_m=0.99,\ \Delta P_b=0.06,\ \eta_b=0.97$
+\\
+
+At an altitude of $h=7,000\ m$, the ISA table in chapter 3 gives: 
+\\
+
+$P_a=0.4111\ bar\ =41.11\ kPa,\ T_a=242.7\ K,\ \rho_a=0.5901\ kg/m^{3}$
+\\
+
+Find: $A_n,\ F,\ SFC$
+\\
+
+	\begin{Large}
+		Inlet
+	\end{Large}
+\\
+
+$T_{01}^{'}-T_a=\eta_i \frac{C_a ^{2}}{2 C_{pa}} = 0.95 \frac{(260\ m/s) ^{2}}{2*1.0005\ kJ/kg*K} = 32.09\ K$
+
+$T_{01}=\eta_i (T_{01}^{'}-T_a)+T_a = 0.95(32.09\ K)+242.7\ K = 273.19\ K$
+
+$P_{01}=P_a (1+\eta_i \frac{C_a ^{2}}{2 C_{pa}})^{\frac{\gamma}{\gamma-1}} = 0.4111\ bar (1+0.95 \frac{(260\ m/s) ^{2}}{2*1.0005\ kJ/kg*K})^{\frac{1.4}{0.4}}$
+
+$P_{01}=0.6349\ bar$
+\\
+
+	\begin{Large}
+		Compressor
+	\end{Large}
+\\
+
+$T_{02}-T_{01}=T_{01}[r_c ^{\frac{\gamma-1}{\gamma \eta_{\infty c}}}-1]=273.19\ K[8.0 ^{\frac{1.4-1}{1.4*0.87}-1}]=267.62\ K$
+
+$P_{02}=r_c * P_{01}=8.0*0.6349\ bar=5.0792\ bar$
+
+$T_{02}=T_{01}+(T_{02}-T_{01})=273.19\ K+(267.63\ K)=540.81\ K$
+\\
+
+	\begin{Large}
+		Combustor
+	\end{Large}
+\\
+
+$P_{03}=P_{01}*r_c*(1-\Delta P_b)=0.6349\ bar*8.0*(0.94)=4.7744\ bar$
+
+$f_{actual}=\frac{C_{pg}T_{03}-C_{pa}T_{02}}{\eta_b (Q_f-C_{pg}T_{03})}=\frac{1.148*1200-1.0005*540.81}{ (43100-1.148*1200)}=0.0207$
+\\
+\\
+
+	\begin{Large}
+		Turbine
+	\end{Large}
+\\
+
+$T_{03}-T_{04}=\frac{1}{\eta_m}\frac{C_{pa}}{C_{pg}}(T_{02}-T_{01})=\frac{1}{0.99}\frac{1.0005}{1.148}(267.62)=235.59\ K$
+
+$T_{04}=T_{03}-(T_{03}-T_{04})=1200\ K-235.59\ K=964.41\ K$
+
+$T_{03}-T_{04}=T_{03}[1-r_t^{\frac{\eta_{\infty t}(\gamma-1)}{\gamma}}]\gg 235.59\ 
+K=1200\ K[1-r_t^{\frac{0.87(0.333)}{0.333}}]$
+\\
+
+Solving for $r_t$ using Symbolab gives:
+
+$r_t=0.3659$
+
+$P_{04}=P_{03}*r_t=4.7744\ bar*(0.3659)=1.7470\ bar$
+\\
+
+	\begin{Large}
+		Nozzle
+	\end{Large}
+\\
+
+$NPR=\frac{P_{04}}{P_a}=\frac{1.7470\ bar}{0.4111\ bar}=4.2496$
+check for choke condition
+
+$(\frac{P_0}{P})_{crit}=\frac{1}{[1-\frac{1}{\eta_j}(\frac{\gamma-1}{\gamma+1})]^{\frac{\gamma}{\gamma-1}}}
+=\frac{1}{[1-\frac{1}{0.95}(\frac{0.333}{2.333})]^{\frac{1.333}{0.333}}}=1.9198$
+
+$NPR>(\frac{P_0}{P})_{crit}$, meaning nozzle is choked $(M_5=1)$
+
+$P_5=P_c=P_{04}*\frac{1}{(\frac{P_0}{P})_{crit}}=1.7470\ bar*\frac{1}{1.9189}=0.9104\ bar$
+
+$(\frac{T_0}{T})_{crit}=[1+\frac{\gamma-1}{2}(M)]=[1+\frac{1.333-1}{2}(1)]=1.1665$
+
+$T_5=T_c=T_{04}*\frac{1}{(\frac{T_0}{T})_{crit}}=964.41\ K*\frac{1}{1.1665}=836.76K$
+
+$C_5=M_5*\sqrt{\gamma_g*R*T_5}=1*\sqrt{1.333*287*826.76}=562.4 m/s$
+
+$\dot{m}_a=\rho_5*C_5*A_5$, solved for $A_5=\frac{\dot{m}_a}{\rho_5*C_5}=\frac{15\ kg/s}{0.384\ kg/m^3*562.4\ m/s}$
+
+$\fbox{$A_5=0.0695\ m^2$}$
+
+$F=\dot{m}_a(C_5-C_a)+A_5(P_5-P_a)=15(562.4-260)+0.0695(91040-41110)$
+
+$\fbox{$F=7.985\ kN$}$
+
+$F_s=\frac{F}{\dot{m}_a}=532.3\ Ns/kg$
+
+$SFC=\frac{f}{F_s}=\frac{0.0207*3600}{532.3}$
+
+$\fbox{$SFC=0.1400\ kg/hN$}$
+\\
+\\
+
+\begin{LARGE}
+	Problem 2:
+\end{LARGE}
+\\
+
+At takeoff with the following conditions:
+\\
+
+$P_a=1.1\ bar,\ T_a=288\ K,\ P_{07}=3.8\ bar,\ T_{07}=1000\ K,\ \dot{m}=23\ kg/s$
+\\
+
+A: Find $A_9$ required and $F$ produced assuming isentropic convergent nozzle
+\\
+
+$NPR=\frac{P_{07}}{P_a}=\frac{3.8\ bar}{1.01\ bar}=3.76$
+\\
+
+Assuming nozzle efficiency $\eta_j=1$
+\\
+
+$(\frac{P_0}{P})_{crit}=\frac{1}{[1-\frac{1}{\eta_j}(\frac{\gamma-1}{\gamma+1})]^{\frac{\gamma}{\gamma-1}}}
+=\frac{1}{[1-\frac{1}{1}(\frac{0.333}{2.333})]^{\frac{1.333}{0.333}}}=1.852$
+
+$NPR>(\frac{P_0}{P})_{crit}$, meaning nozzle is choked $(M_9=1)$
+
+$P_9=P_c=P_{07}*\frac{1}{(\frac{P_0}{P})_{crit}}=3.8\ bar*\frac{1}{1.852}=2.052\ bar$
+
+$(\frac{T_0}{T})_{crit}=[1+\frac{\gamma-1}{2}(M)]=[1+\frac{1.333-1}{2}(1)]=1.1665$
+
+$T_9=T_c=T_{07}*\frac{1}{(\frac{T_0}{T})_{crit}}=1000\ K*\frac{1}{1.1665}=857.27K$
+
+$C_9=M_9*\sqrt{\gamma_g*R*T_9}=1*\sqrt{1.333*287*857.27}=572.0 m/s$
+
+$\rho_9=\frac{P_9}{R*T_9}=\frac{205.2/ kPa}{0.287\ kJ/kgK*857.27\ K}=0.834\ kg/m^3$
+
+$\dot{m}=\rho_9*C_9*A_9$, solved for $A_9=\frac{\dot{m}}{\rho_9*C_9}=\frac{23\ kg/s}{0.834\ kg/m^3*572.0\ m/s}$
+
+$\fbox{$A_5=0.0482\ m^2$}$
+
+$F=\dot{m}_a(C_9-C_a)+A_9(P_9-P_a)=23(572.0-0)+0.0482(205200-101000)$
+
+$\fbox{$F=18.18\ kN$}$
+
+
+
+\end{document}
